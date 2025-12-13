@@ -1,0 +1,49 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background: linear-gradient(180deg, #0b1c2d, #102a43);
+  color: white;
+}
+
+/* LEFT */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+/* CENTER */
+.nav-center {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav-center a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-center a:hover {
+  border-bottom: 2px solid #facc15;
+}
+
+/* RIGHT */
+.nav-right {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-right a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-right a:hover {
+  color: #facc15;
+}

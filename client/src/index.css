@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+/* Prevent unwanted horizontal scroll */
+html, body {
+  overflow-x: hidden;
+}
