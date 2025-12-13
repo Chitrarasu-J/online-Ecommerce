@@ -1,10 +1,15 @@
 import express from "express";
-import { addProduct, getAllProducts, getProductById } from "../controllers/product.controller.js";
+import Product from "../models/Product.js";
 
 const router = express.Router();
 
-router.post("/add", addProduct);           // Add product
-router.get("/", getAllProducts);           // Get all
-router.get("/:id", getProductById);        // Get one
+router.get("/", async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products); // IMPORTANT: direct array
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch products" });
+  }
+});
 
 export default router;
