@@ -1,15 +1,8 @@
 import express from "express";
-import auth from "../middleware/auth.middleware.js";
-import {
-  getCart,
-  addToCart,
-  removeFromCart
-} from "../controllers/cart.controller.js";
+import { chatWithBot } from "../controllers/chat.controller.js";
 
 const router = express.Router();
 
-router.get("/", auth, getCart);
-router.post("/", auth, addToCart);
-router.delete("/:id", auth, removeFromCart);
+router.post("/", chatWithBot);
 
 export default router;

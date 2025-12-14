@@ -1,10 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import axios from "../api/axiosClient";
 import "./ProductCard.css";
 
 export default function ProductCard({ product }) {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  const addToCart = async () => {
+  const addToCart = async (e) => {
+    e.stopPropagation(); // ❗ prevent page navigation
+
     if (!token) {
       alert("Please login to add to cart");
       return;
@@ -17,12 +21,14 @@ export default function ProductCard({ product }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Added to cart");
-    } catch (err) {
+    } catch {
       alert("Failed to add to cart");
     }
   };
 
-  const addToWishlist = async () => {
+  const addToWishlist = async (e) => {
+    e.stopPropagation(); // ❗ prevent page navigation
+
     if (!token) {
       alert("Please login to add to wishlist");
       return;
@@ -35,21 +41,24 @@ export default function ProductCard({ product }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Added to wishlist");
-    } catch (err) {
+    } catch {
       alert("Failed to add to wishlist");
     }
   };
 
   return (
-    <div className="product-card">
-      {/* ⛔ DO NOT CHANGE MARKUP */}
+    <div
+      className="product-card"
+      onClick={() => navigate(`/product/${product._id}`)}
+      style={{ cursor: "pointer" }}
+    >
+      {/* ❗ IMAGE & DESIGN UNCHANGED */}
       <img src={product.image} alt={product.title} />
 
       <h3>{product.title}</h3>
       <p className="price">₹{product.price}</p>
 
       <div className="card-actions">
-        {/* SAME BUTTONS – JUST CONNECTED */}
         <button className="cart-btn" onClick={addToCart}>
           Add to Cart
         </button>

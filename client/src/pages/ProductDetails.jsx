@@ -32,6 +32,7 @@ function ProductDetails() {
 
   return (
     <div className="product-details">
+      {/* ❗ SAME IMAGE – NO CHANGE */}
       <img src={product.image} alt={product.title} />
 
       <div className="details-info">

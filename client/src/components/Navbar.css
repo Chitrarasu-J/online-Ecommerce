@@ -47,3 +47,32 @@
 .nav-right a:hover {
   color: #facc15;
 }
+.category-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background: white;
+  color: black;
+  padding: 10px;
+  border-radius: 6px;
+  display: none;
+  min-width: 150px;
+}
+
+.category-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu p {
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.dropdown-menu p:hover {
+  color: #2575fc;
+}

@@ -12,6 +12,8 @@ import About from "./pages/About";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
+import Category from "./pages/Category";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
         {/* User features */}
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/category/:name" element={<Category />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
 
       {/* Floating chatbot */}
