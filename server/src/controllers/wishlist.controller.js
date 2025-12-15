@@ -1,31 +1,51 @@
 import Wishlist from "../models/Wishlist.js";
 
+// Get wishlist
 export const getWishlist = async (req, res) => {
-  const items = await Wishlist.find({ user: req.userId })
-    .populate("product");
-  res.json(items);
+  try {
+    const items = await Wishlist.find({ user: req.user.id })
+      .populate("product");
+    res.json(items);
+  } catch {
+    res.status(500).json({ message: "Failed to load wishlist" });
+  }
 };
 
+// Add to wishlist
 export const addToWishlist = async (req, res) => {
-  const { productId } = req.body;
+  try {
+    const { productId } = req.body;
 
-  const exists = await Wishlist.findOne({
-    user: req.userId,
-    product: productId
-  });
+    const exists = await Wishlist.findOne({
+      user: req.user.id,
+      product: productId,
+    });
 
-  if (exists)
-    return res.json({ message: "Already in wishlist" });
+    if (exists) {
+      return res.status(400).json({ message: "Already in wishlist" });
+    }
 
-  const item = await Wishlist.create({
-    user: req.userId,
-    product: productId
-  });
+    const item = await Wishlist.create({
+      user: req.user.id,
+      product: productId,
+    });
 
-  res.json(item);
+    res.json(item);
+  } catch {
+    res.status(500).json({ message: "Add to wishlist failed" });
+  }
 };
 
+// ✅ REMOVE FROM WISHLIST (THIS WAS MISSING / WRONG)
 export const removeFromWishlist = async (req, res) => {
-  await Wishlist.findByIdAndDelete(req.params.id);
-  res.json({ message: "Removed from wishlist" });
+  try {
+    await Wishlist.findOneAndDelete({
+      user: req.user.id,
+      product: req.params.id, // IMPORTANT
+    });
+
+    res.json({ message: "Item removed from wishlist" });
+  } catch {
+    res.status(500).json({ message: "Remove wishlist failed" });
+  }
 };

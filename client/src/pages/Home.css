@@ -1,5 +1,5 @@
 .home {
-  background: #f5f5f5;
+  background: #efebeb;
 }
 
 .heading {
@@ -12,15 +12,15 @@
 .products-container {
   display: flex;
   flex-wrap: wrap;
-  padding: 20px 40px;
+  padding: 2px 40px;
   gap: 20px;
 }
 .products-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 25px;
+  gap: 50px;
   justify-content: center;
-  padding: 40px;
+  padding: 5px;
 }
 .featured-title {
   font-size: 26px;

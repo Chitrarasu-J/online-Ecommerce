@@ -1,20 +1,20 @@
 import express from "express";
-import Wishlist from "../models/Wishlist.js";
-import auth from "../middleware/auth.middleware.js";
+import {
+  addToWishlist,
+  getWishlist,
+  removeFromWishlist
+} from "../controllers/wishlist.controller.js";
+import authMiddleware from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/", auth, async (req, res) => {
-  await Wishlist.create({
-    user: req.user.id,
-    product: req.body.productId
-  });
-  res.json({ message: "Added to wishlist" });
-});
+// Add to wishlist
+router.post("/", authMiddleware, addToWishlist);
 
-router.get("/", auth, async (req, res) => {
-  const items = await Wishlist.find({ user: req.user.id }).populate("product");
-  res.json(items);
-});
+// Get wishlist
+router.get("/", authMiddleware, getWishlist);
+
+// ✅ REMOVE FROM WISHLIST (IMPORTANT)
+router.delete("/remove/:id", authMiddleware, removeFromWishlist);
 
 export default router;

@@ -6,11 +6,11 @@ export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  const addToCart = async (e) => {
-    e.stopPropagation(); // ❗ prevent page navigation
+  const handleAddToCart = async (e) => {
+    e.stopPropagation(); // prevent card click
 
     if (!token) {
-      alert("Please login to add to cart");
+      navigate("/login"); // 🔥 direct redirect (NO popup)
       return;
     }
 
@@ -18,19 +18,21 @@ export default function ProductCard({ product }) {
       await axios.post(
         "/cart",
         { productId: product._id },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      alert("Added to cart");
-    } catch {
-      alert("Failed to add to cart");
+      // ✅ silent success (no alert)
+    } catch (err) {
+      console.error("Add to cart failed", err);
     }
   };
 
-  const addToWishlist = async (e) => {
-    e.stopPropagation(); // ❗ prevent page navigation
+  const handleAddToWishlist = async (e) => {
+    e.stopPropagation(); // prevent card click
 
     if (!token) {
-      alert("Please login to add to wishlist");
+      navigate("/login"); // 🔥 direct redirect (NO popup)
       return;
     }
 
@@ -38,11 +40,13 @@ export default function ProductCard({ product }) {
       await axios.post(
         "/wishlist",
         { productId: product._id },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      alert("Added to wishlist");
-    } catch {
-      alert("Failed to add to wishlist");
+      // ✅ silent success
+    } catch (err) {
+      console.error("Add to wishlist failed", err);
     }
   };
 
@@ -52,18 +56,18 @@ export default function ProductCard({ product }) {
       onClick={() => navigate(`/product/${product._id}`)}
       style={{ cursor: "pointer" }}
     >
-      {/* ❗ IMAGE & DESIGN UNCHANGED */}
+      {/* IMAGE & UI — UNCHANGED */}
       <img src={product.image} alt={product.title} />
 
       <h3>{product.title}</h3>
       <p className="price">₹{product.price}</p>
 
       <div className="card-actions">
-        <button className="cart-btn" onClick={addToCart}>
+        <button className="cart-btn" onClick={handleAddToCart}>
           Add to Cart
         </button>
 
-        <button className="wish-btn" onClick={addToWishlist}>
+        <button className="wish-btn" onClick={handleAddToWishlist}>
           ❤️
         </button>
       </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axiosClient";
-import "./Wishlist.css"; // your existing CSS
+import "./Wishlist.css";
 
 export default function Wishlist() {
   const [items, setItems] = useState([]);
@@ -9,26 +9,23 @@ export default function Wishlist() {
   useEffect(() => {
     if (!token) return;
 
-    axios
-      .get("/wishlist", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then(res => setItems(res.data))
-      .catch(err => console.error(err));
+    axios.get("/wishlist", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => setItems(res.data))
+    .catch(() => {});
   }, [token]);
 
-  const removeFromWishlist = async (id) => {
+  const removeFromWishlist = async (productId) => {
     try {
-      await axios.delete(`/wishlist/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      await axios.delete(`/wishlist/remove/${productId}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
 
-      setItems(items.filter(item => item._id !== id));
-    } catch (err) {
+      setItems(prev =>
+        prev.filter(item => item.product._id !== productId)
+      );
+    } catch {
       alert("Failed to remove item");
     }
   };
@@ -37,14 +34,11 @@ export default function Wishlist() {
     <div className="wishlist-page">
       <h1 className="wishlist-title">My Wishlist</h1>
 
-      <div className="wishlist-container">
-        {items.length === 0 && (
-          <p>Your wishlist is empty</p>
-        )}
+      {items.length === 0 && <p>Your wishlist is empty</p>}
 
+      <div className="wishlist-container">
         {items.map(item => (
           <div className="wishlist-item" key={item._id}>
-            {/* SAME STRUCTURE – DESIGN SAFE */}
             <img
               src={item.product.image}
               alt={item.product.title}
@@ -56,8 +50,8 @@ export default function Wishlist() {
             </div>
 
             <button
-              className="remove-wishlist-btn"
-              onClick={() => removeFromWishlist(item._id)}
+              className="remove-btn"
+              onClick={() => removeFromWishlist(item.product._id)}
             >
               Remove
             </button>
